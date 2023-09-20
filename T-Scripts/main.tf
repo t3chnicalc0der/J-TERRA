@@ -1,5 +1,7 @@
 provider "aws" {
   region = "ap-south-1"
+  export AWS_ACCESS_KEY_ID="AKIAW3PBWE3BRSCVAKNO"
+  export AWS_SECRET_ACCESS_KEY="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"
   
 }
 
