@@ -1,32 +1,28 @@
 pipeline {
     agent any
-    tools{
-        jdk 'jdk11'
-        maven 'maven3'
+    
+    tools {
+        terraform 'terraform1.57'
     }
-   
 
     stages {
-        stage('git-checkout') {
+        stage('Git') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Devops-CICD.git'
+                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/jaiswaladi2468/J-TERRA.git'
             }
         }
         
-        stage('Code-Compile') {
+        stage('terra') {
             steps {
-               sh "mvn clean compile"
+                sh "terraform -v"
+                dir('/root/.jenkins/workspace/Terraform-With-Jenkins/T-Scripts/') {
+                    sh "terraform init"    
+                    sh "terraform plan"
+                    //sh "terraform apply --var-file terraform.tfvars --auto-approve"
+                    sh "terraform destroy --auto-approve"
+                }
+                
             }
         }
-        
-       	
-	
-        stage('Code-Build') {
-            steps {
-               sh "mvn clean install"
-            }
-        }
-       
-        
     }
 }
